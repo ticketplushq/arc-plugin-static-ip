@@ -9,6 +9,7 @@ module.exports = (staticIp) => {
   let privateSubnets = []
   let publicSubnets = []
   let ips = 1
+  let vpcCidr = '10.0.0.0/16'
   let destinationCidr = '0.0.0.0/0'
 
   if (staticIp) {
@@ -38,6 +39,12 @@ module.exports = (staticIp) => {
       }
     }
 
+    const vpcCidrIndex = staticIp.findIndex((param) => Array.isArray(param) && param[0] == 'vpc-cidr')
+    if (vpcCidrIndex >= 0) {
+      vpcCidr = staticIp[vpcCidrIndex][1]
+      validateCidr(vpcCidr)
+    }
+
     const destinationCidrIndex = staticIp.findIndex((param) => Array.isArray(param) && param[0] == 'destination-cidr')
     if (destinationCidrIndex >= 0) {
       destinationCidr = staticIp[destinationCidrIndex][1]
@@ -49,6 +56,7 @@ module.exports = (staticIp) => {
     privateSubnets,
     publicSubnets,
     ips,
+    vpcCidr,
     destinationCidr
   }
 }

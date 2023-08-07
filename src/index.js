@@ -10,12 +10,12 @@ module.exports = {
       const staticIp = arc['static-ip']
       if (!staticIp) return cfn
 
-      const { privateSubnets, publicSubnets, ips, destinationCidr } = getStaticIpOptions(staticIp)
+      const { privateSubnets, publicSubnets, ips, vpcCidr, destinationCidr } = getStaticIpOptions(staticIp)
 
       cfn.Resources['VPC'] = {
         Type: 'AWS::EC2::VPC',
         Properties: {
-          CidrBlock: { Ref: 'CIDR' },
+          CidrBlock: vpcCidr,
           EnableDnsSupport: true,
           EnableDnsHostnames: true,
         }

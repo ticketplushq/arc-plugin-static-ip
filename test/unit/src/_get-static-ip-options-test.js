@@ -31,6 +31,45 @@ public-subnets
   t.deepEqual(publicSubnets, expectedPublicSubnets, 'Got correct public subnets')
 })
 
+test('Specify vpc cidr', async (t) => {
+  t.plan(1)
+  let rawArc = `
+@app
+app
+@static-ip
+private-subnets
+  10.0.1.0/24
+  10.0.2.0/24
+public-subnets
+  10.0.3.0/24
+  10.0.4.0/24
+vpc-cidr 11.0.0.0/16
+`
+  let { inv } = await _inventory({ rawArc })
+  let arc = inv._project.arc
+  let { vpcCidr } = getStaticIpOptions(arc['static-ip'])
+  t.equal(vpcCidr, '11.0.0.0/16', 'Got correct vpc cidr')
+})
+
+test('Get default vpc cidr', async (t) => {
+  t.plan(1)
+  let rawArc = `
+@app
+app
+@static-ip
+private-subnets
+  10.0.1.0/24
+  10.0.2.0/24
+public-subnets
+  10.0.3.0/24
+  10.0.4.0/24
+`
+  let { inv } = await _inventory({ rawArc })
+  let arc = inv._project.arc
+  let { vpcCidr } = getStaticIpOptions(arc['static-ip'])
+  t.equal(vpcCidr, '10.0.0.0/16', 'Got correct default vpc cidr')
+})
+
 test('Specify destination cidr', async (t) => {
   t.plan(1)
   let rawArc = `
