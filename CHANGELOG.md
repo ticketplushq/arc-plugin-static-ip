@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.1...v1.0.2) (2023-08-07)
+
+
+### Bug Fixes
+
+* add missing policy statements for vpc ([4235566](https://github.com/ticketplushq/arc-plugin-static-ip/commit/4235566f514cc70b1fc22ce5f6b26b58ea0b6d93))
+
+
+
 ## [1.0.1](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.0...v1.0.1) (2023-08-07)
 
 
