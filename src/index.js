@@ -21,6 +21,14 @@ module.exports = {
         }
       }
 
+      cfn.Resources['DefaultSecurityGroup'] = {
+        Type: 'AWS::EC2::SecurityGroup',
+        Properties: {
+          GroupDescription: `VPC default security group for ${arc.app[0]}`,
+          VpcId: { Ref: 'VPC' }
+        }
+      }
+
       cfn.Resources['InternetGateway'] = {
         Type: 'AWS::EC2::InternetGateway',
         Properties: {}
@@ -119,7 +127,10 @@ module.exports = {
       const lambdas = Object.values(inventory.inv.lambdasBySrcDir)
       lambdas.forEach(({ src }) => {
         let logicalID = getLogicalID(inventory, src)
-        cfn.Resources[logicalID]['Properties']['VpcConfig'] = { SubnetIds: privateSubnetsIds }
+        cfn.Resources[logicalID]['Properties']['VpcConfig'] = {
+          SecurityGroupIds: [ { 'Fn::GetAtt': [ 'DefaultSecurityGroup', 'GroupId' ] } ],
+          SubnetIds: privateSubnetsIds
+        }
       })
 
       return cfn
