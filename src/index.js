@@ -12,6 +12,25 @@ module.exports = {
 
       const { privateSubnets, publicSubnets, ips, vpcCidr, destinationCidr } = getStaticIpOptions(staticIp)
 
+      cfn.Resources.Role.Properties.Policies.push({
+        PolicyName: 'ArcVPCPolicy',
+        PolicyDocument: {
+          Statement: [
+            {
+              Effect: 'Allow',
+              Action: [
+                'ec2:DescribeNetworkInterfaces',
+                'ec2:CreateNetworkInterface',
+                'ec2:DeleteNetworkInterface',
+                'ec2:DescribeInstances',
+                'ec2:AttachNetworkInterface'
+              ],
+              Resource: '*'
+            }
+          ]
+        }
+      })
+
       cfn.Resources['VPC'] = {
         Type: 'AWS::EC2::VPC',
         Properties: {
