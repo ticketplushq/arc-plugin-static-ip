@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.0...v1.0.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* add missing required security group ([007c920](https://github.com/ticketplushq/arc-plugin-static-ip/commit/007c920bb20eaaa0a62d0773c1bed68c5f17fa94))
+
+
+
 # 1.0.0 (2023-08-07)
 
 
