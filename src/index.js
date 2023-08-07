@@ -86,10 +86,10 @@ module.exports = {
           }
         }
 
-        cfn.Resources[`PrivateSubnet${index}RouteTableAssociation`] = {
+        cfn.Resources[`PrivateSubnet${index + 1}RouteTableAssociation`] = {
           Type: 'AWS::EC2::SubnetRouteTableAssociation',
           Properties: {
-            SubnetId: { Ref: `PrivateSubnet${index}` },
+            SubnetId: { Ref: `PrivateSubnet${index + 1}` },
             RouteTableId: { Ref: 'PrivateRouteTable' }
           }
         }
@@ -106,10 +106,10 @@ module.exports = {
           }
         }
 
-        cfn.Resources[`PublicSubnet${index}RouteTableAssociation`] = {
+        cfn.Resources[`PublicSubnet${index + 1}RouteTableAssociation`] = {
           Type: 'AWS::EC2::SubnetRouteTableAssociation',
           Properties: {
-            SubnetId: { Ref: `PublicSubnet${index}` },
+            SubnetId: { Ref: `PublicSubnet${index + 1}` },
             RouteTableId: { Ref: 'PublicRouteTable' }
           }
         }
