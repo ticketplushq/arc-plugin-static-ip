@@ -10,7 +10,7 @@ module.exports = {
       const staticIp = arc['static-ip']
       if (!staticIp) return cfn
 
-      const { privateSubnets, publicSubnets, ips } = getStaticIpOptions(staticIp)
+      const { privateSubnets, publicSubnets, ips, destinationCidr } = getStaticIpOptions(staticIp)
 
       cfn.Resources['VPC'] = {
         Type: 'AWS::EC2::VPC',
@@ -52,7 +52,7 @@ module.exports = {
         Type: 'AWS::EC2::Route',
         Properties: {
           RouteTableId: { Ref: 'PublicRouteTable' },
-          DestinationCidrBlock: '0.0.0.0/0',
+          DestinationCidrBlock: destinationCidr,
           GatewayId: { Ref: 'InternetGateway' }
         },
         DependsOn: 'AttachGateway'

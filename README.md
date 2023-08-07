@@ -36,6 +36,8 @@ The `@static-ip` pragma allows you to configure the network configuration.
 - The `ips` entry allow you to define number of ips
 - The `private-subnets` entry allow you to define each private subnet cidr
 - The `public-subnets` entry allow you to define each public subnet cidr
+- The `destination-cidr` entry allow to define destination cidr for public route table
+  * The default value is `0.0.0.0/0`
 
 #### Example
 

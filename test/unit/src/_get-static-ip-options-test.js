@@ -31,6 +31,45 @@ public-subnets
   t.deepEqual(publicSubnets, expectedPublicSubnets, 'Got correct public subnets')
 })
 
+test('Specify destination cidr', async (t) => {
+  t.plan(1)
+  let rawArc = `
+@app
+app
+@static-ip
+private-subnets
+  10.0.1.0/24
+  10.0.2.0/24
+public-subnets
+  10.0.3.0/24
+  10.0.4.0/24
+destination-cidr 1.0.10.0/24
+`
+  let { inv } = await _inventory({ rawArc })
+  let arc = inv._project.arc
+  let { destinationCidr } = getStaticIpOptions(arc['static-ip'])
+  t.equal(destinationCidr, '1.0.10.0/24', 'Got correct destination cidr')
+})
+
+test('Get default destination cidr', async (t) => {
+  t.plan(1)
+  let rawArc = `
+@app
+app
+@static-ip
+private-subnets
+  10.0.1.0/24
+  10.0.2.0/24
+public-subnets
+  10.0.3.0/24
+  10.0.4.0/24
+`
+  let { inv } = await _inventory({ rawArc })
+  let arc = inv._project.arc
+  let { destinationCidr } = getStaticIpOptions(arc['static-ip'])
+  t.equal(destinationCidr, '0.0.0.0/0', 'Got correct default destination cidr')
+})
+
 test('Custom number of ips', async (t) => {
   t.plan(1)
   let rawArc = `

@@ -9,6 +9,7 @@ module.exports = (staticIp) => {
   let privateSubnets = []
   let publicSubnets = []
   let ips = 1
+  let destinationCidr = '0.0.0.0/0'
 
   if (staticIp) {
     const privateIndex = staticIp.findIndex((param) => param['private-subnets'])
@@ -36,11 +37,18 @@ module.exports = (staticIp) => {
         throw ReferenceError(`Invalid static ip params: Number of ips (${ips}) is greater than the number of public subnets (${publicSubnets.length})`)
       }
     }
+
+    const destinationCidrIndex = staticIp.findIndex((param) => Array.isArray(param) && param[0] == 'destination-cidr')
+    if (destinationCidrIndex >= 0) {
+      destinationCidr = staticIp[destinationCidrIndex][1]
+      validateCidr(destinationCidr)
+    }
   }
 
   return {
     privateSubnets,
     publicSubnets,
-    ips
+    ips,
+    destinationCidr
   }
 }
