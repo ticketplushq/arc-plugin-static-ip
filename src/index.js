@@ -115,14 +115,11 @@ module.exports = {
         }
       })
 
-      const privateSubnetsRefs = privateSubnets.map((_, index) => ({ Ref: `PrivateSubnet${index + 1}` }))
-      const publicSubnetsRefs = publicSubnets.map((_, index) => ({ Ref: `PublicSubnet${index + 1}` }))
+      const privateSubnetsIds = privateSubnets.map((_, index) => ({ 'Fn::GetAtt': [ `PrivateSubnet${index + 1}`, 'SubnetId' ] }))
       const lambdas = Object.values(inventory.inv.lambdasBySrcDir)
       lambdas.forEach(({ src }) => {
         let logicalID = getLogicalID(inventory, src)
-        cfn.Resources[logicalID]['Properties']['VpcConfig'] = {
-          SubnetIds: privateSubnetsRefs + publicSubnetsRefs
-        }
+        cfn.Resources[logicalID]['Properties']['VpcConfig'] = { SubnetIds: privateSubnetsIds }
       })
 
       return cfn
