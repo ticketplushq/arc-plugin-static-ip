@@ -3,6 +3,7 @@
 
 ### Bug Fixes
 
+* some typo errors with resource index ([8afdb3e](https://github.com/ticketplushq/arc-plugin-static-ip/commit/8afdb3e5e2648b9c99ae502ea9ca4697df45c717))
 * use private subnet ids for lambdas ([4eeac38](https://github.com/ticketplushq/arc-plugin-static-ip/commit/4eeac38116d74634bd8dc26c460bb077e940998c))
 
 
