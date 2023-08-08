@@ -1,6 +1,6 @@
 # @ticketplushq/arc-plugin-static-ip
 
-[![Build](https://github.com/ticketplushq/arc-plugin-static-ip/actions/workflows/build.yaml/badge.svg)](https://github.com/ticketplushq/arc-plugin-static-ip/actions/workflows/build.yaml)
+[![Build](https://github.com/ticketplushq/arc-plugin-static-ip/actions/workflows/build.yaml/badge.svg)](https://github.com/ticketplushq/arc-plugin-static-ip/actions/workflows/build.yaml) [![npm version](https://badge.fury.io/js/@ticketplushq%2Farc-plugin-static-ip.svg)](https://badge.fury.io/js/@ticketplushq%2Farc-plugin-static-ip)
 
 This plugin allows setting a static outgoing IP in an architect project
 
