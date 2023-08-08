@@ -1,3 +1,17 @@
+## [1.0.4](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.2...v1.0.4) (2023-08-09)
+
+
+### Bug Fixes
+
+* disable MapPublicIpOnLaunch in private subnets ([`2d0386b`](https://github.com/ticketplushq/arc-plugin-static-ip/commit/2d0386b0c69c5b52a0e4232b891baec325e513aa))
+
+
+### Features
+
+* allow private subnets only ([`e561edc`](https://github.com/ticketplushq/arc-plugin-static-ip/commit/e561edc963b30e3fc187146a19628a368c6c754b))
+* rename ips to ip-addresses to make it less ambiguous ([`d1e3029`](https://github.com/ticketplushq/arc-plugin-static-ip/commit/d1e3029d512611cccc82ade223f3921f3e96b0a5))
+
+
 ## [1.0.3](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.2...v1.0.3) (2023-08-08)
 
 

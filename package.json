@@ -1,6 +1,6 @@
 {
   "name": "@ticketplushq/arc-plugin-static-ip",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This plugin allows setting a static outgoing IP in an architect project",
   "main": "src/index.js",
   "scripts": {
