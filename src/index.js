@@ -12,6 +12,8 @@ module.exports = {
 
       const { privateSubnets, publicSubnets, ips, vpcCidr, destinationCidr } = getStaticIpOptions(staticIp)
 
+      const privateSubnetsIds = privateSubnets.map((_, index) => ({ 'Fn::GetAtt': [ `PrivateSubnet${index + 1}`, 'SubnetId' ] }))
+
       cfn.Resources.Role.Properties.Policies.push({
         PolicyName: 'ArcVPCPolicy',
         PolicyDocument: {
@@ -95,6 +97,50 @@ module.exports = {
         DependsOn: 'AttachGateway'
       }
 
+      cfn.Resources['S3Endpoint'] = {
+        Type: 'AWS::EC2::VPCEndpoint',
+        Properties: {
+          PolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: '*',
+                Action: [ 's3:*' ],
+                Resource: [ '*' ]
+              }
+            ]
+          },
+          RouteTableIds: [
+            { Ref: 'PrivateRouteTable' }
+          ],
+          ServiceName: { 'Fn::Sub': 'com.amazonaws.${AWS::Region}.s3' },
+          VpcId: { Ref: 'VPC' }
+        }
+      }
+
+      cfn.Resources['DynamoDBEndpoint'] = {
+        Type: 'AWS::EC2::VPCEndpoint',
+        Properties: {
+          PolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: '*',
+                Action: [ 'dynamodb:*' ],
+                Resource: [ '*' ]
+              }
+            ]
+          },
+          RouteTableIds: [
+            { Ref: 'PrivateRouteTable' }
+          ],
+          ServiceName: { 'Fn::Sub': 'com.amazonaws.${AWS::Region}.dynamodb' },
+          VpcId: { Ref: 'VPC' }
+        }
+      }
+
       for (let index = 0; index < ips; index++) {
         cfn.Resources[`ElasticIp${index + 1}`] = {
           Type: 'AWS::EC2::EIP',
@@ -170,7 +216,6 @@ module.exports = {
         }
       })
 
-      const privateSubnetsIds = privateSubnets.map((_, index) => ({ 'Fn::GetAtt': [ `PrivateSubnet${index + 1}`, 'SubnetId' ] }))
       const lambdas = Object.values(inventory.inv.lambdasBySrcDir)
       lambdas.forEach(({ src }) => {
         let logicalID = getLogicalID(inventory, src)
