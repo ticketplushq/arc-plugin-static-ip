@@ -1,3 +1,18 @@
+## [1.0.3](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.2...v1.0.3) (2023-08-08)
+
+
+### Bug Fixes
+
+* add missing routes to nat gateway ([1850874](https://github.com/ticketplushq/arc-plugin-static-ip/commit/18508744a62306147cd9046cedc847c59eb84b6b))
+
+
+### Features
+
+* add vpc endpoints to improve connectivity performance ([c2a34e1](https://github.com/ticketplushq/arc-plugin-static-ip/commit/c2a34e15936883aaf5aabab092a27c6c6d25f060))
+* name is included in resources for easy identification in AWS ([d460d64](https://github.com/ticketplushq/arc-plugin-static-ip/commit/d460d6461be2198964a0c926f12ebaa8f0f4eed5))
+
+
+
 ## [1.0.2](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.1...v1.0.2) (2023-08-07)
 
 
