@@ -113,6 +113,15 @@ module.exports = {
             SubnetId: { Ref: `PublicSubnet${index + 1}` }
           }
         }
+
+        cfn.Resources[`PrivateRoute${index + 1}`] = {
+          Type: 'AWS::EC2::Route',
+          Properties: {
+            RouteTableId: { Ref: 'PrivateRouteTable' },
+            DestinationCidrBlock: destinationCidr,
+            NatGatewayId: { Ref: `NatGateway${index + 1}` }
+          }
+        }
       }
 
       privateSubnets.forEach((cidr, index) => {
