@@ -37,6 +37,9 @@ module.exports = {
           CidrBlock: vpcCidr,
           EnableDnsSupport: true,
           EnableDnsHostnames: true,
+          Tags: [
+            { Key: 'Name', Value: { Ref: 'AWS::StackName' } }
+          ]
         }
       }
 
@@ -44,13 +47,20 @@ module.exports = {
         Type: 'AWS::EC2::SecurityGroup',
         Properties: {
           GroupDescription: `VPC default security group for ${arc.app[0]}`,
-          VpcId: { Ref: 'VPC' }
+          VpcId: { Ref: 'VPC' },
+          Tags: [
+            { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'default' ] ] } }
+          ]
         }
       }
 
       cfn.Resources['InternetGateway'] = {
         Type: 'AWS::EC2::InternetGateway',
-        Properties: {}
+        Properties: {
+          Tags: [
+            { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'gateway' ] ] } }
+          ]
+        }
       }
 
       cfn.Resources['AttachGateway'] = {
@@ -89,7 +99,10 @@ module.exports = {
         cfn.Resources[`ElasticIp${index + 1}`] = {
           Type: 'AWS::EC2::EIP',
           Properties: {
-            Domain: 'vpc'
+            Domain: 'vpc',
+            Tags: [
+              { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'eip', index + 1 ] ] } }
+            ]
           }
         }
 
@@ -109,7 +122,10 @@ module.exports = {
             VpcId: { Ref: 'VPC' },
             CidrBlock: cidr,
             AvailabilityZone: { 'Fn::Select': [ index % maxZones, { 'Fn::GetAZs': '' } ] },
-            MapPublicIpOnLaunch: true
+            MapPublicIpOnLaunch: true,
+            Tags: [
+              { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'private-subnet', index + 1 ] ] } }
+            ]
           }
         }
 
@@ -129,7 +145,10 @@ module.exports = {
             VpcId: { Ref: 'VPC' },
             CidrBlock: cidr,
             AvailabilityZone: { 'Fn::Select': [ index % maxZones, { 'Fn::GetAZs': '' } ] },
-            MapPublicIpOnLaunch: true
+            MapPublicIpOnLaunch: true,
+            Tags: [
+              { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'public-subnet', index + 1 ] ] } }
+            ]
           }
         }
 
