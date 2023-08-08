@@ -109,13 +109,13 @@ public-subnets
   t.equal(destinationCidr, '0.0.0.0/0', 'Got correct default destination cidr')
 })
 
-test('Custom number of ips', async (t) => {
+test('Custom number of ip addresses', async (t) => {
   t.plan(1)
   let rawArc = `
 @app
 app
 @static-ip
-ips 2
+ip-addresses 2
 private-subnets
   10.0.1.0/24
   10.0.2.0/24
@@ -125,11 +125,11 @@ public-subnets
 `
   let { inv } = await _inventory({ rawArc })
   let arc = inv._project.arc
-  let { ips } = getStaticIpOptions(arc['static-ip'])
-  t.equal(ips, 2, 'Got correct ips number (2)')
+  let { ipAddresses } = getStaticIpOptions(arc['static-ip'])
+  t.equal(ipAddresses, 2, 'Got correct ip addresses number (2)')
 })
 
-test('Default number of ips', async (t) => {
+test('Default number of ip addresses', async (t) => {
   t.plan(1)
   let rawArc = `
 @app
@@ -144,11 +144,11 @@ public-subnets
 `
   let { inv } = await _inventory({ rawArc })
   let arc = inv._project.arc
-  let { ips } = getStaticIpOptions(arc['static-ip'])
-  t.equal(ips, 1, 'Got correct ips number (1)')
+  let { ipAddresses } = getStaticIpOptions(arc['static-ip'])
+  t.equal(ipAddresses, 1, 'Got correct ip addresses number (1)')
 })
 
-test('Missing primary region', async (t) => {
+test('Missing private subnets', async (t) => {
   t.plan(1)
   let rawArc = `
 @app
@@ -206,24 +206,24 @@ public-subnets
   }, 'subnets are invalid')
 })
 
-test('Invalid number of ips', async (t) => {
+test('Invalid number of ip addresses', async (t) => {
   t.plan(1)
   let rawArc = `
 @app
 app
 @static-ip
-ips 2
+ip-addresses 2
 private-subnets
   1.0.1.0/24
 public-subnets
-  1.0.1.0/24
+  1.0.2.0/24
 `
   let { inv } = await _inventory({ rawArc })
   let arc = inv._project.arc
   t.throws(() => {
     getStaticIpOptions(arc['static-ip'])
   }, {
-    message: 'Invalid static ip params: Number of ips (2) is greater than the number of public subnets (1)'
-  }, 'too many ips')
+    message: 'Invalid static ip params: Number of ip addresses (2) is greater than the number of public subnets (1)'
+  }, 'too many ip addresses')
 })
 

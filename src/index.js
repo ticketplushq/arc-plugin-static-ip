@@ -10,7 +10,7 @@ module.exports = {
       const staticIp = arc['static-ip']
       if (!staticIp) return cfn
 
-      const { privateSubnets, publicSubnets, ips, vpcCidr, destinationCidr } = getStaticIpOptions(staticIp)
+      const { privateSubnets, publicSubnets, ipAddresses, vpcCidr, destinationCidr } = getStaticIpOptions(staticIp)
 
       const privateSubnetsIds = privateSubnets.map((_, index) => ({ 'Fn::GetAtt': [ `PrivateSubnet${index + 1}`, 'SubnetId' ] }))
 
@@ -141,7 +141,7 @@ module.exports = {
         }
       }
 
-      for (let index = 0; index < ips; index++) {
+      for (let index = 0; index < ipAddresses; index++) {
         cfn.Resources[`ElasticIp${index + 1}`] = {
           Type: 'AWS::EC2::EIP',
           Properties: {

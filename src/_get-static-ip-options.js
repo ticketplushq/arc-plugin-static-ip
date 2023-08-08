@@ -8,7 +8,7 @@ const validateCidr = (cidr) => {
 module.exports = (staticIp) => {
   let privateSubnets = []
   let publicSubnets = []
-  let ips = 1
+  let ipAddresses = 1
   let vpcCidr = '10.0.0.0/16'
   let destinationCidr = '0.0.0.0/0'
 
@@ -31,11 +31,16 @@ module.exports = (staticIp) => {
       throw ReferenceError('Invalid static ip params: Missing public subnets in @static-ip')
     }
 
-    const ipsIndex = staticIp.findIndex((param) => Array.isArray(param) && param[0] == 'ips')
-    if (ipsIndex >= 0) {
-      ips = staticIp[ipsIndex][1]
-      if (publicSubnets.length < ips) {
-        throw ReferenceError(`Invalid static ip params: Number of ips (${ips}) is greater than the number of public subnets (${publicSubnets.length})`)
+    const ipAddressesIndex = staticIp.findIndex((param) => Array.isArray(param) && (param[0] == 'ips' || param[0] == 'ip-addresses'))
+    if (ipAddressesIndex >= 0) {
+      if (staticIp[ipAddressesIndex][0] == 'ips') {
+        console.warn('WARNING: ips is deprecated in @static-ip. Use ip-addresses instead.')
+      }
+
+      ipAddresses = staticIp[ipAddressesIndex][1]
+
+      if (publicSubnets.length < ipAddresses) {
+        throw ReferenceError(`Invalid static ip params: Number of ip addresses (${ipAddresses}) is greater than the number of public subnets (${publicSubnets.length})`)
       }
     }
 
@@ -55,7 +60,7 @@ module.exports = (staticIp) => {
   return {
     privateSubnets,
     publicSubnets,
-    ips,
+    ipAddresses,
     vpcCidr,
     destinationCidr
   }

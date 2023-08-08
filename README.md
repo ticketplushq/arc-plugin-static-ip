@@ -32,7 +32,7 @@ Then follow the directions below for `@static-ip`.
 
 The `@static-ip` pragma allows you to configure the network configuration.
 
-- The `ips` entry allow you to define number of ips
+- The `ip-addresses` entry allow you to define number of ips
   * The default value is `1`
 - The `private-subnets` entry allow you to define each private subnet cidr
 - The `public-subnets` entry allow you to define each public subnet cidr
@@ -41,18 +41,18 @@ The `@static-ip` pragma allows you to configure the network configuration.
 - The `destination-cidr` entry allow to define destination cidr for public route table
   * The default value is `0.0.0.0/0`
 
-#### Example
+#### Example for a VPC with 2 static IP addresses
 
 ```
 # app.arc
 @static-ip
-ips 2
+ip-addresses 2
 private-subnets
   10.0.1.0/24
   10.0.2.0/24
 public-subnets
-  10.0.1.0/24
-  10.0.2.0/24
+  10.0.3.0/24
+  10.0.4.0/24
 ```
 
 ## Maintainer
