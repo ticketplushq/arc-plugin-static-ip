@@ -167,23 +167,23 @@ public-subnets
   }, 'private subnets param is not present')
 })
 
-test('Missing primary region', async (t) => {
-  t.plan(1)
+test('Allow private subnets only', async (t) => {
+  t.plan(3)
   let rawArc = `
 @app
 app
 @static-ip
+ip-addresses 0
 private-subnets
   10.0.1.0/24
   10.0.2.0/24
 `
   let { inv } = await _inventory({ rawArc })
   let arc = inv._project.arc
-  t.throws(() => {
-    getStaticIpOptions(arc['static-ip'])
-  }, {
-    message: 'Invalid static ip params: Missing public subnets in @static-ip'
-  }, 'public subnets param is not present')
+  let { ipAddresses, publicSubnets, privateSubnets } = getStaticIpOptions(arc['static-ip'])
+  t.equal(ipAddresses, 0, 'Got correct ip addresses number (0)')
+  t.deepEqual(publicSubnets, [], 'Got correct public subnets')
+  t.deepEqual(privateSubnets, [ '10.0.1.0/24', '10.0.2.0/24' ], 'Got correct private subnets')
 })
 
 test('Invalid subnets values', async (t) => {

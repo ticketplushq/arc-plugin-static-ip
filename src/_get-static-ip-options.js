@@ -27,9 +27,6 @@ module.exports = (staticIp) => {
       publicSubnets = publicSubnets.concat(staticIp[publicIndex]['public-subnets'])
       publicSubnets.forEach(validateCidr)
     }
-    else {
-      throw ReferenceError('Invalid static ip params: Missing public subnets in @static-ip')
-    }
 
     const ipAddressesIndex = staticIp.findIndex((param) => Array.isArray(param) && (param[0] == 'ips' || param[0] == 'ip-addresses'))
     if (ipAddressesIndex >= 0) {

@@ -55,6 +55,17 @@ public-subnets
   10.0.4.0/24
 ```
 
+#### Example for a VPC with private subnets only
+
+```
+# app.arc
+@static-ip
+ip-addresses 0
+private-subnets
+  10.0.1.0/24
+  10.0.2.0/24
+```
+
 ## Maintainer
 
 [@ticketplushq](https://github.com/ticketplushq)

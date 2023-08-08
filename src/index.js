@@ -56,30 +56,6 @@ module.exports = {
         }
       }
 
-      cfn.Resources['InternetGateway'] = {
-        Type: 'AWS::EC2::InternetGateway',
-        Properties: {
-          Tags: [
-            { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'gateway' ] ] } }
-          ]
-        }
-      }
-
-      cfn.Resources['AttachGateway'] = {
-        Type: 'AWS::EC2::VPCGatewayAttachment',
-        Properties: {
-          VpcId: { Ref: 'VPC' },
-          InternetGatewayId: { Ref: 'InternetGateway' }
-        }
-      }
-
-      cfn.Resources['PublicRouteTable'] = {
-        Type: 'AWS::EC2::RouteTable',
-        Properties: {
-          VpcId: { Ref: 'VPC' }
-        }
-      }
-
       cfn.Resources['PrivateRouteTable'] = {
         Type: 'AWS::EC2::RouteTable',
         Properties: {
@@ -87,14 +63,40 @@ module.exports = {
         }
       }
 
-      cfn.Resources['PublicRoute'] = {
-        Type: 'AWS::EC2::Route',
-        Properties: {
-          RouteTableId: { Ref: 'PublicRouteTable' },
-          DestinationCidrBlock: destinationCidr,
-          GatewayId: { Ref: 'InternetGateway' }
-        },
-        DependsOn: 'AttachGateway'
+      if (publicSubnets.length > 0) {
+        cfn.Resources['InternetGateway'] = {
+          Type: 'AWS::EC2::InternetGateway',
+          Properties: {
+            Tags: [
+              { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'gateway' ] ] } }
+            ]
+          }
+        }
+
+        cfn.Resources['AttachGateway'] = {
+          Type: 'AWS::EC2::VPCGatewayAttachment',
+          Properties: {
+            VpcId: { Ref: 'VPC' },
+            InternetGatewayId: { Ref: 'InternetGateway' }
+          }
+        }
+
+        cfn.Resources['PublicRouteTable'] = {
+          Type: 'AWS::EC2::RouteTable',
+          Properties: {
+            VpcId: { Ref: 'VPC' }
+          }
+        }
+
+        cfn.Resources['PublicRoute'] = {
+          Type: 'AWS::EC2::Route',
+          Properties: {
+            RouteTableId: { Ref: 'PublicRouteTable' },
+            DestinationCidrBlock: destinationCidr,
+            GatewayId: { Ref: 'InternetGateway' }
+          },
+          DependsOn: 'AttachGateway'
+        }
       }
 
       cfn.Resources['S3Endpoint'] = {
