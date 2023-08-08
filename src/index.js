@@ -177,7 +177,7 @@ module.exports = {
             VpcId: { Ref: 'VPC' },
             CidrBlock: cidr,
             AvailabilityZone: { 'Fn::Select': [ index % maxZones, { 'Fn::GetAZs': '' } ] },
-            MapPublicIpOnLaunch: true,
+            MapPublicIpOnLaunch: false,
             Tags: [
               { Key: 'Name', Value: { 'Fn::Join': [ '-', [ { Ref: 'AWS::StackName' }, 'private-subnet', index + 1 ] ] } }
             ]
