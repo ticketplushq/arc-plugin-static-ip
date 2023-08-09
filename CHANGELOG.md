@@ -1,4 +1,4 @@
-## [1.0.4](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.2...v1.0.4) (2023-08-09)
+## [1.0.4](https://github.com/ticketplushq/arc-plugin-static-ip/compare/v1.0.3...v1.0.4) (2023-08-09)
 
 
 ### Bug Fixes
